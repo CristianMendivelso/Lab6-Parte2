@@ -48,13 +48,20 @@ public class JDBCDaoUsuario implements DaoUsuario {
         String load = "SELECT nombre FROM"
                 + " usuarios"
                 + " WHERE email = ?";
+        
+            
+
+      
         try {
             ps=con.prepareStatement(load);
-            ps.setString(1, load);
+            ps.setString(1, email);
             ResultSet rs= ps.executeQuery();
             while(rs.next()){
                 nombre=rs.getString("nombre");
             }          
+            if (nombre.equals("")){
+                throw new PersistenceException("no existe un usuario");
+            }
             u = new Usuario(email,nombre);
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while loading "+email,ex);
@@ -67,21 +74,26 @@ public class JDBCDaoUsuario implements DaoUsuario {
     @Override
     public void save(Usuario u) throws PersistenceException {
         PreparedStatement ps;
-        String insertString = "insert into "+"USUARIOS"+
+        boolean usuarioExistente=false;
+        String insertString = "insert into "+"USUARIOS "+
                                    "values ( ? , ? )"; 
         try{
             Usuario nu=load(u.getEmail());
-            throw new PersistenceException("Ya existe el usuario");
+            usuarioExistente=true;
+            
         }
         catch(PersistenceException e){
             try {
                 ps= con.prepareStatement(insertString);
                 ps.setString(1,u.getEmail());
-                ps.setString(1,u.getNombre());
+                ps.setString(2,u.getNombre());
                 ps.execute();
             } catch (SQLException ex) {
                 Logger.getLogger(JDBCDaoUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        if(usuarioExistente){
+            throw new PersistenceException("Ya existe el usuario");
         }
         
         

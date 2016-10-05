@@ -56,13 +56,14 @@ public class PacientePersistenceTest {
    
        
         
-        Usuario p = new Usuario("christian.soto-a@mail.escuelaing.edu.co","Christian Soto");
+        Usuario p = new Usuario("cristian.soto-a@mail.escuelaing.edu.co","Christian Soto");
         daof.getDaoUsuario().save(p);
+    
         try{
             daof.getDaoUsuario().save(p);
-            assertTrue("El usuario a registrar ya fue previamente registrado.",false);
+            assertTrue("Se registraron dos usuarios.",false);
         }
-        catch(PersistenceException pe){
+        catch(PersistenceException e){
             assertTrue("No se pueden registrar Usuarios repetidos.",true);
         }
         daof.commitTransaction();
