@@ -42,7 +42,7 @@ public class PacientePersistenceTest {
     }
     
     @Test
-    public void databaseConnectionTest() throws IOException, PersistenceException{
+    public void databaseConnectionTest2() throws IOException, PersistenceException{
         InputStream input = null;
         input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
         Properties properties=new Properties();
@@ -52,19 +52,9 @@ public class PacientePersistenceTest {
         
         daof.beginSession();
                 
-        //IMPLEMENTACION DE LAS PRUEBAS
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        //IMPLEMENTACION DE LAS PRUEBA
+   
+       
         
         Usuario p = new Usuario("christian.soto-a@mail.escuelaing.edu.co","Christian Soto");
         daof.getDaoUsuario().save(p);
@@ -75,12 +65,37 @@ public class PacientePersistenceTest {
         catch(PersistenceException pe){
             assertTrue("No se pueden registrar Usuarios repetidos.",true);
         }
-        fail("Pruebas no implementadas");
-
-
         daof.commitTransaction();
         daof.endSession();        
     }
+
+    @Test
+    public void databaseConnectionTest1() throws IOException, PersistenceException{
+        InputStream input = null;
+        input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
+        Properties properties=new Properties();
+        properties.load(input);
+        
+        DaoFactory daof=DaoFactory.getInstance(properties);
+        
+        daof.beginSession();
+                
+        //IMPLEMENTACION DE LAS PRUEBA
+   
+
+        Usuario u = new Usuario("correoprueba","nombre");
+        daof.getDaoUsuario().save(u);
+        Usuario nu= daof.getDaoUsuario().load("correoprueba");
+        assertEquals("No se guardo correctamente el usuario",u.getNombre(),nu.getNombre());
+        assertEquals("No se guardo correctamente el usuario",u.getEmail(),nu.getEmail());
+        daof.commitTransaction();
+        daof.endSession();        
+    }
+
+
+        
+
+        
     
     
 }
