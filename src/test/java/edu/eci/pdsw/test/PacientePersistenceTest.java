@@ -53,6 +53,28 @@ public class PacientePersistenceTest {
         daof.beginSession();
                 
         //IMPLEMENTACION DE LAS PRUEBAS
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        Usuario p = new Usuario("christian.soto-a@mail.escuelaing.edu.co","Christian Soto");
+        daof.getDaoUsuario().save(p);
+        try{
+            daof.getDaoUsuario().save(p);
+            assertTrue("El usuario a registrar ya fue previamente registrado.",false);
+        }
+        catch(PersistenceException pe){
+            assertTrue("No se pueden registrar Usuarios repetidos.",true);
+        }
         fail("Pruebas no implementadas");
 
 
