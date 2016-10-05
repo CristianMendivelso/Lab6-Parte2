@@ -90,12 +90,5 @@ public class PacientePersistenceTest {
         assertEquals("No se guardo correctamente el usuario",u.getEmail(),nu.getEmail());
         daof.commitTransaction();
         daof.endSession();        
-    }
-
-
-        
-
-        
-    
-    
+    }    
 }
