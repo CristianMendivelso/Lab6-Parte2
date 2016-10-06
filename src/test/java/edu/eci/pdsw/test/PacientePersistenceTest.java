@@ -86,9 +86,14 @@ public class PacientePersistenceTest {
 
         Usuario u = new Usuario("correoprueba","nombre");
         daof.getDaoUsuario().save(u);
-        Usuario nu= daof.getDaoUsuario().load("correoprueba");
-        assertEquals("No se guardo correctamente el usuario",u.getNombre(),nu.getNombre());
-        assertEquals("No se guardo correctamente el usuario",u.getEmail(),nu.getEmail());
+        try{
+            Usuario nu= daof.getDaoUsuario().load("correoprueba");
+            assertEquals("No se guardo correctamente el usuario",u.getNombre(),nu.getNombre());
+            assertEquals("No se guardo correctamente el usuario",u.getEmail(),nu.getEmail());
+        }
+        catch(PersistenceException e){
+            assertTrue("No se pudo cargar el usuario correctamente",false);
+        }
         daof.commitTransaction();
         daof.endSession();        
     }    
